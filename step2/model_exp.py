@@ -70,6 +70,12 @@ class DeepFMExp(DeepFM):
                 outputs.append(context_reshape[:, :len_pv])
             return tf.concat(outputs, -1)
 
+    def loss_bpr(self, y, y_):
+        with tf.variable_scope('task_loss'):
+            dif_y = tf.expand_dims(y, -1) - tf.expand_dims(y, 1) # [B, pv_len, pv_len]
+            dif_y_ = tf.expand_dims(y_, -1) - tf.expand_dims(y_, 1) # [B, pv_len, pv_len]
+            loss = tf.reduce_mean(-tf.log(tf.sign(dif_y) * dif_y_))
+        return loss
 
     def inference(self, features, name, is_training, mode):
         with tf.variable_scope('input_layer'):
@@ -242,7 +248,10 @@ class DeepFMExp(DeepFM):
         
         loss_ctr = self.loss_function(click_list, click_probs)
         tf.summary.scalar('loss/ctr', loss_ctr)
-        loss = loss_ctr
+        loss_bpr = self.loss_bpr(click_list, click_probs)
+        tf.summary.scalar('loss/bpr', loss_bpr)
+        alpha = 0.05
+        loss = loss_ctr + alpha * loss_bpr
 
         if mode == tf.estimator.ModeKeys.TRAIN:
             res = self._count_param()

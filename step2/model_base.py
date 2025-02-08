@@ -362,7 +362,6 @@ class DeepFM(object):
             # if self.l2_reg > 0:
             #     l2 = tf.contrib.layers.l2_regularizer(self.l2_reg)
             #     loss += l2(self.fm_weights['category_feature_weights'])
-            tf.summary.scalar('task_loss', loss)
         return loss
     
     def table_lookup(self, table, list_ids, threshold, v_name, flatten, embedding_size):
