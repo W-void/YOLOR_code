@@ -232,24 +232,17 @@ class DeepFMExp(DeepFM):
             }
             return tf.estimator.EstimatorSpec(mode, predictions=predictions)
 
-        click_probs = tf.reshape(click_probs, (-1, 1))
-        pctr_logits = tf.identity(click_probs, name='click_probs')
         click_list = tf.reshape(labels['click_list'], (-1, self.params['len_pv']))
         click_list = click_list[:, 9:17]
 
+        loss_bpr = self.loss_bpr(click_list, click_probs)
+        tf.summary.scalar('loss/bpr', loss_bpr)
 
-
+        click_probs = tf.reshape(click_probs, (-1, 1))        
         click_list = tf.reshape(click_list, (-1, 1))
-        # click_mask = tf.reshape(click_mask, (-1, 1))
-        poi_mask = tf.reshape(poi_mask, (-1, 1))
-        order_mask = click_list * poi_mask
-
-        logger.info('#WSL: click_probs is %s, click_list is %s'%(click_probs, click_list))
         
         loss_ctr = self.loss_function(click_list, click_probs)
         tf.summary.scalar('loss/ctr', loss_ctr)
-        loss_bpr = self.loss_bpr(click_list, click_probs)
-        tf.summary.scalar('loss/bpr', loss_bpr)
         alpha = 0.05
         loss = loss_ctr + alpha * loss_bpr
 
