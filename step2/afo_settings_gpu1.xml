@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>afo.app.name</name>
+        <value>tf_wm_ctr_gpu</value>
+    </property>
+    <property>
+        <name>afo.app.queue</name>
+        <value>root.zw03_training02.hadoop-odghoae.job</value>
+    </property>
+    <property>
+        <name>afo.container.mode</name>
+        <value>job</value>
+    </property>
+    <property>
+        <name>afo.docker.image.name</name>
+        <!-- <value>registryonline-hulk.sankuai.com/custom_prod/com.sankuai.data.hadoop.gpu/tf1.15_mt1.3.2_cuda11.0_runtime-0808932b</value> -->
+        <value>registryonline-hulk.sankuai.com/custom_prod/com.sankuai.data.hadoop.gpu/data-edison_tf1.15_mt1.3.4_py27_cuda11.0_runtime-10973d76</value>
+    </property>
+
+    <property>
+        <name>afo.tensorflow.cog.mode</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>afo.role.worker.env.HOROVOD_CYCLE_TIME</name>
+        <value>0.001</value>
+    </property>
+
+    <property>
+        <name>afo.use.data.dispatch</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>afo.app.am.resource.mb</name>
+        <value>10240</value>
+    </property>
+
+    <property>
+        <name>with.chief</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>parameter.servers</name>
+        <value>0</value>
+    </property>
+
+    <property>
+        <name>with.tensor.board</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>afo.role.board.resource.mb</name>
+        <value>10240</value>
+    </property>
+    <property>
+        <name>board.memory</name>
+        <value>10240</value>
+    </property>
+
+    <property>
+        <name>workers</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>worker.memory</name>
+        <value>200000</value>
+    </property>
+    <property>
+        <name>worker.vcore</name>
+        <value>40</value>
+    </property>
+    <property>
+        <name>worker.gcores40g</name>
+        <value>2</value>
+    </property>
+    <property>
+        <name>worker.script</name>
+        <value>python main.py</value>
+    </property>
+
+    <property>
+        <name>evaluators</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>evaluator.memory</name>
+        <value>110000</value>
+    </property>
+    <property>
+        <name>evaluator.vcore</name>
+        <value>22</value>
+    </property>
+    <property>
+        <name>evaluator.gcores40g</name>
+        <value>1</value>
+    </property>
+<!--    &lt;!&ndash; 独立设置Evaluator的batch_size为 8192 &ndash;&gt;-->
+<!--    <property>-->
+<!--        <name>args.evaluator.batch_size</name>-->
+<!--        <value>8192</value>-->
+<!--    </property>-->
+    <property>
+        <name>evaluator.script</name>
+        <value>python main.py</value>
+    </property>
+
+    <property>
+        <name>afo.app.env.TF_HDFS_CLIENT_JVM_MEM_M</name>
+        <value>16384</value>
+    </property>
+    <property>
+        <name>afo.role.evaluator.env.TF_HDFS_CLIENT_JVM_MEM_M</name>
+        <value>16384</value>
+    </property>
+    <property>
+        <name>afo.role.worker.env.TF_HDFS_CLIENT_JVM_MEM_M</name>
+        <value>16384</value>
+    </property>
+    <property>
+        <name>afo.role.evaluator.task.attempt.max.retry</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>afo.app.yarn.allocate.timeout.seconds</name>
+        <value>36000</value>
+    </property>
+
+    <property>
+        <name>afo.data.max.epoch</name>
+        <value>30</value>
+    </property>
+    <property>
+        <name>afo.data.evaluator.max.epoch</name>
+        <value>1</value>
+    </property>
+    <property>
+    <name>afo.data.epoch.separate</name>
+    <value>false</value>
+</property>
+</configuration>
